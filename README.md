@@ -1,3 +1,5 @@
+[![test-action](https://github.com/bc-org/gha-determine-phase/actions/workflows/workflow.yaml/badge.svg)](https://github.com/bc-org/gha-determine-phase/actions/workflows/workflow.yaml)
+
 ## Determine the Helm Deployment Phase
 
 Determine the Deployment Phase from GH Event Name and GH Version Tag.  
