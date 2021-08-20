@@ -1,0 +1,71 @@
+name: test-action
+
+on:
+  push:
+  release:
+    types:
+      - published
+
+jobs:
+  test-dev-cascade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: test-prod
+        id: test
+        uses: ./
+        with:
+          event_name: release
+          tag: v1.0.1
+      - name: check-output-prod
+        shell: bash
+        run: |
+          echo "Checking result."
+          echo "Phase: ${{ steps.test.outputs.phase }}"
+          echo "Tag: ${{ steps.test.outputs.tag }}"
+          if [[ "${{ steps.test.outputs.phase }}" != "prod" ]]; then
+            echo "Prod output should be 'prod' is ${{ steps.test.outputs.phase }}."
+            exit 1
+          fi
+          if [[ "${{ steps.test.outputs.tag }}" != "v1.0.1" ]]; then
+            echo "Tag output should be 'v1.0.1' is ${{ steps.test.outputs.tag }}."
+            exit 1
+          fi
+      - name: test-stage
+        id: test
+        uses: ./
+        with:
+          event_name: release
+          tag: v1.0.1.dev0
+      - name: check-output-stage
+        run: |
+          echo "Checking result."
+          echo "Phase: ${{ steps.test.outputs.phase }}"
+          echo "Tag: ${{ steps.test.outputs.tag }}"
+          if [[ "${{ steps.test.outputs.phase }}" != "stage" ]]; then
+            echo "Prod output should be 'stage' is ${{ steps.test.outputs.phase }}."
+            exit 1
+          fi
+          if [[ "${{ steps.test.outputs.tag }}" != "v1.0.1.dev0" ]]; then
+            echo "Tag output should be 'v1.0.1.dev0' is ${{ steps.test.outputs.tag }}."
+            exit 1
+          fi
+      - name: test-stage
+        id: test
+        uses: ./
+        with:
+          event_name: push
+          tag: main
+      - name: check-output-dev
+        run: |
+          echo "Checking result."
+          echo "Phase: ${{ steps.test.outputs.phase }}"
+          echo "Tag: ${{ steps.test.outputs.tag }}"
+          if [[ "${{ steps.test.outputs.phase }}" != "dev" ]]; then
+            echo "Prod output should be 'dev' is ${{ steps.test.outputs.phase }}."
+            exit 1
+          fi
+          if [[ "${{ steps.test.outputs.tag }}" != "latest" ]]; then
+            echo "Tag output should be 'latest' is ${{ steps.test.outputs.tag }}."
+            exit 1
+          fi

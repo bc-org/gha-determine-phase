@@ -1,0 +1,40 @@
+name: 'Determine Deployment Phase'
+description: 'Setting the deployment phase from github event name and GH version tag (result: dev|stage|prod|ignore).'
+inputs:
+  event_name:
+    description: 'GH event name'
+    required: true
+  tag:
+    description: 'Version tag'
+    required: true
+outputs:
+  phase:
+    description: "Deployment phase"
+    value: ${{ steps.get-phase-and-tag.outputs.phase }}
+  tag:
+    description: "Deployment tag"
+    value: ${{ steps.get-phase-and-tag.outputs.tag }}
+
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      id: get-phase-and-tag
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        if [[ "${{ inputs.event_name }}" == "release" && "${{ inputs.tag }}" == *"dev"* ]]
+        then
+          echo ::set-output name=phase::stage
+          echo ::set-output name=tag::${{ inputs.tag }}
+        elif [[ "${{ inputs.event_name }}" == "release" && "${{ inputs.tag }}" != *"dev"* ]]
+        then
+          echo ::set-output name=phase::prod
+          echo ::set-output name=tag::${{ inputs.tag }}
+        elif [[ "${{ inputs.tag }}" == *"master"* || "${{ inputs.tag }}" == *"main"* ]]
+        then
+          echo ::set-output name=phase::dev
+          echo ::set-output name=tag::latest
+        else
+          echo ::set-output name=phase::ignore
+          echo ::set-output name=tag::${{ inputs.tag }}
+        fi
