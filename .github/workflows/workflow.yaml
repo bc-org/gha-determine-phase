@@ -22,11 +22,11 @@ jobs:
           echo "Checking result."
           echo "Phase: ${{ steps.test.outputs.phase }}"
           echo "Tag: ${{ steps.test.outputs.tag }}"
-          if [[ "${{ steps.test.outputs.phase }}" != "prod" ]]; then
+          if [ "${{ steps.test.outputs.phase }}" != "prod" ]; then
             echo "Prod output should be 'prod' is ${{ steps.test.outputs.phase }}."
             exit 1
           fi
-          if [[ "${{ steps.test.outputs.tag }}" != "v1.0.1" ]]; then
+          if [ "${{ steps.test.outputs.tag }}" != "v1.0.1" ]; then
             echo "Tag output should be 'v1.0.1' is ${{ steps.test.outputs.tag }}."
             exit 1
           fi
@@ -41,11 +41,11 @@ jobs:
           echo "Checking result."
           echo "Phase: ${{ steps.test.outputs.phase }}"
           echo "Tag: ${{ steps.test.outputs.tag }}"
-          if [[ "${{ steps.test.outputs.phase }}" != "stage" ]]; then
+          if [ "${{ steps.test.outputs.phase }}" != "stage" ]; then
             echo "Prod output should be 'stage' is ${{ steps.test.outputs.phase }}."
             exit 1
           fi
-          if [[ "${{ steps.test.outputs.tag }}" != "v1.0.1.dev0" ]]; then
+          if [ "${{ steps.test.outputs.tag }}" != "v1.0.1.dev0" ]; then
             echo "Tag output should be 'v1.0.1.dev0' is ${{ steps.test.outputs.tag }}."
             exit 1
           fi
@@ -60,11 +60,11 @@ jobs:
           echo "Checking result."
           echo "Phase: ${{ steps.test.outputs.phase }}"
           echo "Tag: ${{ steps.test.outputs.tag }}"
-          if [[ "${{ steps.test.outputs.phase }}" != "dev" ]]; then
+          if [ "${{ steps.test.outputs.phase }}" != "dev" ]; then
             echo "Prod output should be 'dev' is ${{ steps.test.outputs.phase }}."
             exit 1
           fi
-          if [[ "${{ steps.test.outputs.tag }}" != "latest" ]]; then
+          if [ "${{ steps.test.outputs.tag }}" != "latest" ]; then
             echo "Tag output should be 'latest' is ${{ steps.test.outputs.tag }}."
             exit 1
           fi
