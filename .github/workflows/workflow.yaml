@@ -20,14 +20,14 @@ jobs:
       - name: check-output-prod
         run: |
           echo "Checking result."
-          echo "Phase: ${{ steps.test.outputs.phase }}"
-          echo "Tag: ${{ steps.test.outputs.tag }}"
-          if [ "${{ steps.test.outputs.phase }}" != "prod" ]; then
-            echo "Prod output should be 'prod' is ${{ steps.test.outputs.phase }}."
+          echo "Phase: ${{ steps.test-prod.outputs.phase }}"
+          echo "Tag: ${{ steps.test-prod.outputs.tag }}"
+          if [[ "${{ steps.test-prod.outputs.phase }}" != "prod" ]]; then
+            echo "Prod output should be 'prod' is ${{ steps.test-prod.outputs.phase }}."
             exit 1
           fi
-          if [ "${{ steps.test.outputs.tag }}" != "v1.0.1" ]; then
-            echo "Tag output should be 'v1.0.1' is ${{ steps.test.outputs.tag }}."
+          if [[ "${{ steps.test-prod.outputs.tag }}" != "v1.0.1" ]]; then
+            echo "Tag output should be 'v1.0.1' is ${{ steps.test-prod.outputs.tag }}."
             exit 1
           fi
       - name: test-stage
@@ -39,14 +39,14 @@ jobs:
       - name: check-output-stage
         run: |
           echo "Checking result."
-          echo "Phase: ${{ steps.test.outputs.phase }}"
-          echo "Tag: ${{ steps.test.outputs.tag }}"
-          if [ "${{ steps.test.outputs.phase }}" != "stage" ]; then
-            echo "Prod output should be 'stage' is ${{ steps.test.outputs.phase }}."
+          echo "Phase: ${{ steps.test-stage.outputs.phase }}"
+          echo "Tag: ${{ steps.test-stage.outputs.tag }}"
+          if [[ "${{ steps.test-stage.outputs.phase }}" != "stage" ]]; then
+            echo "Prod output should be 'stage' is ${{ steps.test-stage.outputs.phase }}."
             exit 1
           fi
-          if [ "${{ steps.test.outputs.tag }}" != "v1.0.1.dev0" ]; then
-            echo "Tag output should be 'v1.0.1.dev0' is ${{ steps.test.outputs.tag }}."
+          if [[ "${{ steps.test-stage.outputs.tag }}" != "v1.0.1.dev0" ]]; then
+            echo "Tag output should be 'v1.0.1.dev0' is ${{ steps.test-stage.outputs.tag }}."
             exit 1
           fi
       - name: test-dev
@@ -58,13 +58,13 @@ jobs:
       - name: check-output-dev
         run: |
           echo "Checking result."
-          echo "Phase: ${{ steps.test.outputs.phase }}"
-          echo "Tag: ${{ steps.test.outputs.tag }}"
-          if [ "${{ steps.test.outputs.phase }}" != "dev" ]; then
-            echo "Prod output should be 'dev' is ${{ steps.test.outputs.phase }}."
+          echo "Phase: ${{ steps.test-dev.outputs.phase }}"
+          echo "Tag: ${{ steps.test-dev.outputs.tag }}"
+          if [[ "${{ steps.test-dev.outputs.phase }}" != "dev" ]]; then
+            echo "Prod output should be 'dev' is ${{ steps.test-dev.outputs.phase }}."
             exit 1
           fi
-          if [ "${{ steps.test.outputs.tag }}" != "latest" ]; then
-            echo "Tag output should be 'latest' is ${{ steps.test.outputs.tag }}."
+          if [[ "${{ steps.test-dev.outputs.tag }}" != "latest" ]]; then
+            echo "Tag output should be 'latest' is ${{ steps.test-dev.outputs.tag }}."
             exit 1
           fi
