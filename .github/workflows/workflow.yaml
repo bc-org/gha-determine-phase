@@ -12,13 +12,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: test-prod
-        id: test
+        id: test-prod
         uses: ./
         with:
           event_name: release
           tag: v1.0.1
       - name: check-output-prod
-        shell: bash
         run: |
           echo "Checking result."
           echo "Phase: ${{ steps.test.outputs.phase }}"
@@ -32,7 +31,7 @@ jobs:
             exit 1
           fi
       - name: test-stage
-        id: test
+        id: test-stage
         uses: ./
         with:
           event_name: release
@@ -50,8 +49,8 @@ jobs:
             echo "Tag output should be 'v1.0.1.dev0' is ${{ steps.test.outputs.tag }}."
             exit 1
           fi
-      - name: test-stage
-        id: test
+      - name: test-dev
+        id: test-dev
         uses: ./
         with:
           event_name: push
